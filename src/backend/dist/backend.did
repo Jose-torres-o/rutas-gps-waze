@@ -1,0 +1,161 @@
+type Value = 
+ variant {
+   "bool": bool;
+   float: float64;
+   "int": int;
+   "nat": nat;
+   "null";
+   "text": text;
+ };
+type UserRole = 
+ variant {
+   admin;
+   guest;
+   user;
+ };
+type TravelMode = 
+ variant {
+   bicycle;
+   bus;
+   car;
+   motorcycle;
+   walking;
+ };
+type Timestamp = nat;
+type TagUpdate = 
+ record {
+   category: TagCategory;
+   note: text;
+ };
+type TagInput = 
+ record {
+   category: TagCategory;
+   lat: float64;
+   lng: float64;
+   note: text;
+ };
+type TagId = nat;
+type TagCategory = 
+ variant {
+   hazard;
+   note;
+   pothole;
+   speedCamera;
+   trafficSignal;
+ };
+type Tag = 
+ record {
+   category: TagCategory;
+   createdAt: Timestamp;
+   id: TagId;
+   lat: float64;
+   lng: float64;
+   note: text;
+   owner: principal;
+ };
+type RouteUpdate = 
+ record {
+   mode: TravelMode;
+   name: text;
+ };
+type RouteInput = 
+ record {
+   distanceMeters: float64;
+   durationSeconds: nat;
+   endedAt: Timestamp;
+   mode: TravelMode;
+   name: text;
+   points: vec PathPoint;
+   startedAt: Timestamp;
+ };
+type RouteId = nat;
+type Route = 
+ record {
+   distanceMeters: float64;
+   durationSeconds: nat;
+   endedAt: Timestamp;
+   id: RouteId;
+   mode: TravelMode;
+   name: text;
+   owner: principal;
+   points: vec PathPoint;
+   startedAt: Timestamp;
+ };
+type Result__1 = 
+ variant {
+   err: Error;
+   ok;
+ };
+type Result = 
+ record {
+   hasMore: bool;
+   rows: vec vec Cell;
+ };
+type PathPoint = 
+ record {
+   lat: float64;
+   lng: float64;
+   timestamp: Timestamp;
+ };
+type Error = 
+ variant {
+   AmbiguousAttribute: record {
+                         field: text;
+                         sources: vec text;
+                       };
+   FrontendOriginMismatch: record {
+                             expected: vec text;
+                             got: text;
+                           };
+   FrontendOriginsNotConfigured;
+   MalformedCandid;
+   MissingField: text;
+   MixedSsoSources: record {
+                      otherKeys: vec text;
+                      ssoKeys: vec text;
+                    };
+   NoAttributes;
+   Stale: record {ageNs: nat;};
+   UnknownNonce;
+   UntrustedSsoSource: record {domain: text;};
+ };
+type Cell = 
+ record {
+   name: text;
+   value: Value;
+ };
+service : {
+  _initialize_access_control: () -> ();
+  _internet_identity_sign_in_finish: () -> (Result__1);
+  _internet_identity_sign_in_start: () -> (blob);
+  /// Save a newly recorded route and return its id.
+  addRoute: (input: RouteInput) -> (RouteId);
+  /// Create a tag or note at an exact map point and return its id.
+  addTag: (input: TagInput) -> (TagId);
+  assignCallerUserRole: (user: principal, role: UserRole) -> ();
+  /// Delete one of the caller's saved routes.
+  deleteRoute: (id: RouteId) -> (bool);
+  /// Delete one of the caller's tags.
+  deleteTag: (id: TagId) -> (bool);
+  execute: (qJson: text) -> (Result) query;
+  getApiDoc: () -> (text) query;
+  getCallerUserRole: () -> (UserRole) query;
+  /// Fetch one of the caller's saved routes by id.
+  getRoute: (id: RouteId) -> (opt Route) query;
+  /// Fetch one of the caller's tags by id.
+  getTag: (id: TagId) -> (opt Tag) query;
+  /// Read the caller's persisted travel mode.
+  getTravelMode: () -> (TravelMode) query;
+  isCallerAdmin: () -> (bool) query;
+  /// List the caller's saved routes.
+  listRoutes: () -> (vec Route) query;
+  /// List the caller's tags and notes.
+  listTags: () -> (vec Tag) query;
+  schema: () -> (text) query;
+  /// Persist the caller's travel mode.
+  setTravelMode: (mode: TravelMode) -> (TravelMode);
+  /// Rename or change the travel mode of a saved route.
+  updateRoute: (id: RouteId, update: RouteUpdate) -> (opt Route);
+  /// Edit an existing tag's category or note.
+  updateTag: (id: TagId, update: TagUpdate) -> (opt Tag);
+}

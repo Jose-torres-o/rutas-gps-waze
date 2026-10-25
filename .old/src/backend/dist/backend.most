@@ -1,0 +1,121 @@
+// Version: 4.0.0
+type AccessControlState__201339279 =
+  {
+    var adminAssigned : Bool;
+    userRoles : Map__230067015<Principal, UserRole__91647283>
+  };
+type Data__44217153<K, V> = {var count : Nat__227979830; kvs : [var ?(K, V)]};
+type Internal__283199666<K, V> =
+  {children : [var ?Node__204828119<K, V>]; data : Data__44217153<K, V>};
+type Leaf__598469445<K, V> = {data : Data__44217153<K, V>};
+type Map__230067015<K, V> = Map__405889023<K, V>;
+type Map__405889023<K, V> = Map__603270868<K, V>;
+type Map__603270868<K, V> =
+  {var root : Node__204828119<K, V>; var size : Nat__227979830};
+type Nat__227979830 = Nat__920180692;
+type Nat__920180692 = Nat;
+type NewActor__666861742 =
+  {
+    accessControlState : AccessControlState__201339279;
+    prefs : Map__230067015<Principal, UserPrefs__78610954>;
+    routeState : {var nextRouteId : Nat};
+    routes : Map__230067015<Nat, Route__565612729>;
+    tagState : {var nextTagId : Nat};
+    tags : Map__230067015<Nat, Tag__775653115>
+  };
+type Node__204828119<K, V> =
+  {#internal : Internal__283199666<K, V>; #leaf : Leaf__598469445<K, V>};
+type OldActor__1039705793 = {};
+type PathPoint__1017655022 = {lat : Float; lng : Float; timestamp : Nat};
+type PathPoint__446943364 = PathPoint__612900108;
+type PathPoint__612900108 =
+  {lat : Float; lng : Float; timestamp : Timestamp__301639476};
+type RouteId__1014512787 = RouteId__594135611;
+type RouteId__594135611 = Nat;
+type Route__359719741 =
+  {
+    distanceMeters : Float;
+    durationSeconds : Nat;
+    endedAt : Timestamp__470065763;
+    id : RouteId__1014512787;
+    mode : TravelMode__573651787;
+    name : Text;
+    owner : Principal;
+    points : [PathPoint__446943364];
+    startedAt : Timestamp__470065763
+  };
+type Route__565612729 =
+  {
+    distanceMeters : Float;
+    durationSeconds : Nat;
+    endedAt : Nat;
+    id : Nat;
+    mode : TravelMode__714707041;
+    name : Text;
+    owner : Principal;
+    points : [PathPoint__1017655022];
+    startedAt : Nat
+  };
+type TagCategory__1061498795 =
+  {#hazard; #note; #pothole; #speedCamera; #trafficSignal};
+type TagCategory__834190460 =
+  {#hazard; #note; #pothole; #speedCamera; #trafficSignal};
+type TagId__395649584 = Nat;
+type TagId__747961106 = TagId__395649584;
+type Tag__332915739 =
+  {
+    category : TagCategory__834190460;
+    createdAt : Timestamp__318601797;
+    id : TagId__747961106;
+    lat : Float;
+    lng : Float;
+    note : Text;
+    owner : Principal
+  };
+type Tag__775653115 =
+  {
+    category : TagCategory__1061498795;
+    createdAt : Nat;
+    id : Nat;
+    lat : Float;
+    lng : Float;
+    note : Text;
+    owner : Principal
+  };
+type Timestamp__301639476 = Nat;
+type Timestamp__318601797 = Timestamp__301639476;
+type Timestamp__470065763 = Timestamp__301639476;
+type TravelMode__146485192 = {#bicycle; #bus; #car; #motorcycle; #walking};
+type TravelMode__573651787 = TravelMode__146485192;
+type TravelMode__714707041 = {#bicycle; #bus; #car; #motorcycle; #walking};
+type TravelMode__891847336 = TravelMode__146485192;
+type UserPrefs__10172692 = {mode : TravelMode__891847336};
+type UserPrefs__78610954 = {mode : TravelMode__714707041};
+type UserRole__91647283 = {#admin; #guest; #user};
+{
+  "20261025_120000" : OldActor__1039705793 -> NewActor__666861742
+}
+actor  {
+  stable accessControlState :
+    {
+      var adminAssigned : Bool;
+      userRoles : Map__230067015<Principal, UserRole__91647283>
+    };
+  stable prefs :
+    {
+      var root : Node__204828119<Principal, UserPrefs__10172692>;
+      var size : Nat__227979830
+    };
+  stable routeState : {var nextRouteId : Nat};
+  stable routes :
+    {
+      var root : Node__204828119<RouteId__1014512787, Route__359719741>;
+      var size : Nat__227979830
+    };
+  stable tagState : {var nextTagId : Nat};
+  stable tags :
+    {
+      var root : Node__204828119<TagId__747961106, Tag__332915739>;
+      var size : Nat__227979830
+    }
+};

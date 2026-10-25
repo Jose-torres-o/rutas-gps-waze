@@ -1,0 +1,23 @@
+{
+  "overview": "A Waze-style GPS app that records your trips, saves them as routes, and guides you live on the map with travel modes, street tags and location sharing.",
+  "features": [
+    "Record routes with your device GPS, saving name, distance, duration and timestamped path points",
+    "Browse and manage saved routes with mini-map previews",
+    "Live real-time positioning on the map when following a saved route",
+    "Automatic join-path suggestions with distance and ETA when you are off the route",
+    "Travel modes for car, bus, motorcycle, bicycle and walking",
+    "Drop tags and notes at exact street points, including traffic signals",
+    "Share your live location by link, WhatsApp or the native share sheet",
+    "Built-in management panel to add, edit and delete routes, tags and notes"
+  ],
+  "category": "navigation",
+  "tags": [
+    "gps",
+    "maps",
+    "navigation",
+    "route-recording",
+    "location-sharing",
+    "productivity"
+  ],
+  "last_updated": "2026-10-25T04:15:58.808Z"
+}
